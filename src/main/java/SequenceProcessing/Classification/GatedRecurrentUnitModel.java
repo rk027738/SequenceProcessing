@@ -98,6 +98,7 @@ public class GatedRecurrentUnitModel extends Model implements Serializable {
                 zRecurrentWeights.get(zRecurrentWeights.size() - l - 1).add(zDeltaRecurrentWeights.get(l));
                 rRecurrentWeights.get(rRecurrentWeights.size() - l - 1).add(rDeltaRecurrentWeights.get(l));
             }
+            clear();
         }
     }
 
