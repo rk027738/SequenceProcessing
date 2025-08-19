@@ -205,7 +205,7 @@ public class Transformer extends ComputationalGraph implements Serializable {
         // Encoder Block
         ComputationalNode input1 = new MultiplicationNode(false, true, false);
         this.inputNodes.add(input1);
-        ConcatenatedNode concatenatedNode1 = (ConcatenatedNode) this.concatEdges(multiHeadAttention(input1, ((TransformerParameter) parameter), false, random));
+        ConcatenatedNode concatenatedNode1 = (ConcatenatedNode) this.concatEdges(multiHeadAttention(input1, ((TransformerParameter) parameter), false, random), 2);
         for (int j = 0; j < ((TransformerParameter) parameter).getL() * ((TransformerParameter) parameter).getL(); j++) {
             data.add(-0.01 + (0.02 * random.nextDouble()));
         }
@@ -218,7 +218,7 @@ public class Transformer extends ComputationalGraph implements Serializable {
         // Decoder Block
         ComputationalNode input2 = new MultiplicationNode(false, true, false);
         this.inputNodes.add(input2);
-        ConcatenatedNode concatenatedNode2 = (ConcatenatedNode) this.concatEdges(multiHeadAttention(input2, ((TransformerParameter) parameter), true, random));
+        ConcatenatedNode concatenatedNode2 = (ConcatenatedNode) this.concatEdges(multiHeadAttention(input2, ((TransformerParameter) parameter), true, random), 2);
         data.clear();
         for (int j = 0; j < ((TransformerParameter) parameter).getL() * ((TransformerParameter) parameter).getL(); j++) {
             data.add(-0.01 + (0.02 * random.nextDouble()));
@@ -254,7 +254,7 @@ public class Transformer extends ComputationalGraph implements Serializable {
             ComputationalNode attention = this.addEdge(sQkDk, v, false);
             nodes.add(attention);
         }
-        ConcatenatedNode concatenatedNode3 = (ConcatenatedNode) this.concatEdges(nodes);
+        ConcatenatedNode concatenatedNode3 = (ConcatenatedNode) this.concatEdges(nodes, 2);
         data.clear();
         for (int j = 0; j < ((TransformerParameter) parameter).getL() * ((TransformerParameter) parameter).getL(); j++) {
             data.add(-0.01 + (0.02 * random.nextDouble()));
