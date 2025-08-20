@@ -176,7 +176,7 @@ public class Transformer extends ComputationalGraph implements Serializable {
                 }
                 ComputationalNode hiddenWeight = new MultiplicationNode(true, false, new Tensor(data, new int[]{1, currentLayerSize, parameter.getInputHiddenLayer(i)}), false);
                 ComputationalNode hiddenLayer = this.addEdge(current, hiddenWeight, true);
-                current = this.addEdge(hiddenLayer, parameter.getInputActivationFunction(i), true);
+                current = this.addEdge(hiddenLayer, parameter.getInputActivationFunction(i), false);
                 currentLayerSize = parameter.getInputHiddenLayer(i) + 1;
             } else {
                 data.clear();
@@ -185,7 +185,7 @@ public class Transformer extends ComputationalGraph implements Serializable {
                 }
                 ComputationalNode hiddenWeight = new MultiplicationNode(true, false, new Tensor(data, new int[]{1, currentLayerSize, parameter.getOutputHiddenLayer(i)}), false);
                 ComputationalNode hiddenLayer = this.addEdge(current, hiddenWeight, true);
-                current = this.addEdge(hiddenLayer, parameter.getOutputActivationFunction(i), true);
+                current = this.addEdge(hiddenLayer, parameter.getOutputActivationFunction(i), false);
                 currentLayerSize = parameter.getOutputHiddenLayer(i) + 1;
             }
         }
