@@ -90,8 +90,9 @@ public class RecurrentNeuralNetworkModel extends ComputationalGraph implements S
             this.switches.add(new Switch());
             ArrayList<ComputationalNode> newOldLayers = new ArrayList<>();
             ComputationalNode input = new MultiplicationNode(false, true, false);
+            ComputationalNode maskedInput = this.addEdge(input, switches.get(k), false);
             inputNodes.add(input);
-            ComputationalNode current = input;
+            ComputationalNode current = maskedInput;
             for (int i = 0; i < ((RecurrentNeuralNetworkParameter) parameters).size(); i++) {
                 ComputationalNode aw;
                 ComputationalNode aFunction;
