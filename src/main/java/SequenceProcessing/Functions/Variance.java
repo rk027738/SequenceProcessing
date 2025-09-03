@@ -12,15 +12,15 @@ public class Variance implements Function, Serializable {
     public Tensor calculate(Tensor tensor) {
         ArrayList<Double> values = new ArrayList<>();
         ArrayList<Double> variances = new ArrayList<>();
-        for (int i = 0; i < tensor.getShape()[1]; i++) {
+        for (int i = 0; i < tensor.getShape()[0]; i++) {
             double total = 0.0;
-            for (int j = 0; j < tensor.getShape()[2]; j++) {
-                total += Math.pow(tensor.getValue(new int[]{0, i, j}), 2);
+            for (int j = 0; j < tensor.getShape()[1]; j++) {
+                total += Math.pow(tensor.getValue(new int[]{i, j}), 2);
             }
-            variances.add(total / tensor.getShape()[2]);
+            variances.add(total / tensor.getShape()[1]);
         }
-        for (int i = 0; i < tensor.getShape()[1]; i++) {
-            for (int j = 0; j < tensor.getShape()[2]; j++) {
+        for (int i = 0; i < tensor.getShape()[0]; i++) {
+            for (int j = 0; j < tensor.getShape()[1]; j++) {
                 values.add(variances.get(i));
             }
         }
@@ -30,9 +30,9 @@ public class Variance implements Function, Serializable {
     @Override
     public Tensor derivative(Tensor tensor, Tensor backward) {
         ArrayList<Double> values = new ArrayList<>();
-        for (int i = 0; i < tensor.getShape()[1]; i++) {
-            for (int j = 0; j < tensor.getShape()[2]; j++) {
-                values.add(2.0 * Math.sqrt(tensor.getShape()[2] * tensor.getValue(new int[]{0, i, j})) / tensor.getShape()[2]);
+        for (int i = 0; i < tensor.getShape()[0]; i++) {
+            for (int j = 0; j < tensor.getShape()[1]; j++) {
+                values.add(2.0 * Math.sqrt(tensor.getShape()[1] * tensor.getValue(new int[]{i, j})) / tensor.getShape()[1]);
             }
         }
         return backward.hadamardProduct(new Tensor(values, tensor.getShape()));

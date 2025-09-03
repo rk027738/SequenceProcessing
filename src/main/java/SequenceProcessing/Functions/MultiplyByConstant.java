@@ -28,8 +28,8 @@ public class MultiplyByConstant implements Function, Serializable {
     @Override
     public Tensor derivative(Tensor tensor, Tensor backward) {
         ArrayList<Double> values = new ArrayList<>();
-        for (int i = 0; i < tensor.getShape()[1]; i++) {
-            for (int j = 0; j < tensor.getShape()[2]; j++) {
+        for (int i = 0; i < tensor.getShape()[0]; i++) {
+            for (int j = 0; j < tensor.getShape()[1]; j++) {
                 values.add(constant);
             }
         }

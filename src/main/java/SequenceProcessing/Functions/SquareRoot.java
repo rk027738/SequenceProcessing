@@ -17,9 +17,9 @@ public class SquareRoot implements Function, Serializable {
     @Override
     public Tensor calculate(Tensor tensor) {
         ArrayList<Double> values = new ArrayList<>();
-        for (int i = 0; i < tensor.getShape()[1]; i++) {
-            for (int j = 0; j < tensor.getShape()[2]; j++) {
-                values.add(Math.sqrt(this.epsilon + tensor.getValue(new int[]{0, i, j})));
+        for (int i = 0; i < tensor.getShape()[0]; i++) {
+            for (int j = 0; j < tensor.getShape()[1]; j++) {
+                values.add(Math.sqrt(this.epsilon + tensor.getValue(new int[]{i, j})));
             }
         }
         return new Tensor(values, tensor.getShape());
@@ -28,9 +28,9 @@ public class SquareRoot implements Function, Serializable {
     @Override
     public Tensor derivative(Tensor tensor, Tensor backward) {
         ArrayList<Double> values = new ArrayList<>();
-        for (int i = 0; i < tensor.getShape()[1]; i++) {
-            for (int j = 0; j < tensor.getShape()[2]; j++) {
-                double val = tensor.getValue(new int[]{0, i, j});
+        for (int i = 0; i < tensor.getShape()[0]; i++) {
+            for (int j = 0; j < tensor.getShape()[1]; j++) {
+                double val = tensor.getValue(new int[]{i, j});
                 values.add(1.0 / (2.0 * val));
             }
         }
