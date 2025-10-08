@@ -15,13 +15,15 @@ public class Transformer extends ComputationalGraph implements Serializable {
 
     private final VectorizedDictionary dictionary;
     private int startIndex;
+    private int endIndex;
 
     public Transformer(VectorizedDictionary dictionary) {
         this.dictionary = dictionary;
         for (int k = 0; k < this.dictionary.size(); k++) {
             if (this.dictionary.getWord(k).getName().equals("<SOS>")) {
                 this.startIndex = k;
-                break;
+            } else if (this.dictionary.getWord(k).getName().equals("<EOS>")) {
+                this.endIndex = k;
             }
         }
     }
@@ -252,13 +254,16 @@ public class Transformer extends ComputationalGraph implements Serializable {
             do {
                 setInputNode(j, ((VectorizedWord) this.dictionary.getWord(currentWordIndex)).getVector(), this.inputNodes.get(1));
                 classLabels = this.predict();
-                if (classLabels.get(classLabels.size() - 1).equals(goldClassLabels.get(classLabels.size() - 1))) {
+                if (goldClassLabels.size() >= classLabels.size() && classLabels.get(classLabels.size() - 1).equals(goldClassLabels.get(classLabels.size() - 1))) {
                     count++;
                 }
                 total++;
                 j++;
                 currentWordIndex = classLabels.get(classLabels.size() - 1);
-            } while (classLabels.size() != goldClassLabels.size());
+            } while (currentWordIndex != this.endIndex);
+            if (classLabels.size() < goldClassLabels.size()) {
+                total += goldClassLabels.size() - classLabels.size();
+            }
         }
         return new ClassificationPerformance((count + 0.00) / total);
     }
