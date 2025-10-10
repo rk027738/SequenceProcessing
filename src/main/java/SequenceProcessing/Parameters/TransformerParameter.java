@@ -1,9 +1,8 @@
 package SequenceProcessing.Parameters;
 
-import ComputationalGraph.Function;
-import ComputationalGraph.Initialization;
+import ComputationalGraph.Function.Function;
+import ComputationalGraph.Initialization.Initialization;
 import ComputationalGraph.NeuralNetworkParameter;
-import ComputationalGraph.Optimizer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,14 +15,14 @@ public class TransformerParameter extends NeuralNetworkParameter implements Seri
     private final double epsilon;
     private final ArrayList<Integer> inputHiddenLayers;
     private final ArrayList<Integer> outputHiddenLayers;
-    private final ArrayList<Function> inputFunctions;
-    private final ArrayList<Function> outputFunctions;
+    private final ArrayList<ComputationalGraph.Function.Function> inputFunctions;
+    private final ArrayList<ComputationalGraph.Function.Function> outputFunctions;
     private final ArrayList<Double> gammaInputValues;
     private final ArrayList<Double> gammaOutputValues;
     private final ArrayList<Double> betaInputValues;
     private final ArrayList<Double> betaOutputValues;
 
-    public TransformerParameter(int seed, int epoch, Optimizer optimizer, Initialization initialization, int wordEmbeddingLength, int multiHeadAttentionLength, int vocabularyLength, double epsilon, ArrayList<Integer> inputHiddenLayers, ArrayList<Integer> outputHiddenLayers, ArrayList<Function> inputActivationFunctions, ArrayList<Function> outputActivationFunctions, ArrayList<Double> gammaInputValues, ArrayList<Double> gammaOutputValues, ArrayList<Double> betaInputValues, ArrayList<Double> betaOutputValues) {
+    public TransformerParameter(int seed, int epoch, ComputationalGraph.Optimizer.Optimizer optimizer, Initialization initialization, int wordEmbeddingLength, int multiHeadAttentionLength, int vocabularyLength, double epsilon, ArrayList<Integer> inputHiddenLayers, ArrayList<Integer> outputHiddenLayers, ArrayList<Function> inputActivationFunctions, ArrayList<Function> outputActivationFunctions, ArrayList<Double> gammaInputValues, ArrayList<Double> gammaOutputValues, ArrayList<Double> betaInputValues, ArrayList<Double> betaOutputValues) {
         super(seed, epoch, optimizer, initialization);
         this.L = wordEmbeddingLength + 1;
         this.N = multiHeadAttentionLength;

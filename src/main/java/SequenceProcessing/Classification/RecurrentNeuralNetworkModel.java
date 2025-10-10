@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
+import ComputationalGraph.Function.Softmax;
+import ComputationalGraph.Node.ComputationalNode;
+import ComputationalGraph.Node.MultiplicationNode;
 import Math.*;
 import SequenceProcessing.Functions.RemoveBias;
 import SequenceProcessing.Functions.Switch;

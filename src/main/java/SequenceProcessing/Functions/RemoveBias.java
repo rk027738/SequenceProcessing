@@ -1,13 +1,11 @@
 package SequenceProcessing.Functions;
 
-import ComputationalGraph.Function;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import Math.Tensor;
 
-public class RemoveBias implements Function, Serializable {
+public class RemoveBias implements ComputationalGraph.Function.Function, Serializable {
     @Override
     public Tensor calculate(Tensor matrix) {
         ArrayList<Double> data = (ArrayList<Double>) matrix.getData();

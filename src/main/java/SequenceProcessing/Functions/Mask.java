@@ -1,12 +1,11 @@
 package SequenceProcessing.Functions;
 
-import ComputationalGraph.Function;
 import Math.Tensor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Mask implements Function, Serializable {
+public class Mask implements ComputationalGraph.Function.Function, Serializable {
 
     @Override
     public Tensor calculate(Tensor tensor) {

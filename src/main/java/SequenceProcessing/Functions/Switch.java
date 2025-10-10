@@ -1,13 +1,11 @@
 package SequenceProcessing.Functions;
 
-import ComputationalGraph.Function;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import Math.Tensor;
 
-public class Switch implements Function, Serializable {
+public class Switch implements ComputationalGraph.Function.Function, Serializable {
 
     private boolean turn;
 

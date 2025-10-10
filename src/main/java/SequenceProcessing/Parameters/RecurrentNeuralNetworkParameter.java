@@ -1,9 +1,8 @@
 package SequenceProcessing.Parameters;
 
-import ComputationalGraph.Function;
-import ComputationalGraph.Initialization;
+import ComputationalGraph.Function.Function;
+import ComputationalGraph.Initialization.Initialization;
 import ComputationalGraph.NeuralNetworkParameter;
-import ComputationalGraph.Optimizer;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class RecurrentNeuralNetworkParameter extends NeuralNetworkParameter impl
     private final ArrayList<Function> functions;
     private final int classLabelSize;
 
-    public RecurrentNeuralNetworkParameter(int seed, int epoch, Optimizer optimizer, Initialization initialization, ArrayList<Integer> hiddenLayers, ArrayList<Function> functions, int classLabelSize) {
+    public RecurrentNeuralNetworkParameter(int seed, int epoch, ComputationalGraph.Optimizer.Optimizer optimizer, Initialization initialization, ArrayList<Integer> hiddenLayers, ArrayList<Function> functions, int classLabelSize) {
         super(seed, epoch, optimizer, initialization);
         this.hiddenLayers = hiddenLayers;
         this.functions = functions;

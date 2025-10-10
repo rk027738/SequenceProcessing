@@ -1,11 +1,10 @@
 package SequenceProcessing.Functions;
 
-import ComputationalGraph.Function;
 import Math.Tensor;
 
 import java.io.Serializable;
 
-public class Transpose implements Function, Serializable {
+public class Transpose implements ComputationalGraph.Function.Function, Serializable {
 
     @Override
     public Tensor calculate(Tensor tensor) {

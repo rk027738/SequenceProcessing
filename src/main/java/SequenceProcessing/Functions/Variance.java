@@ -1,6 +1,6 @@
 package SequenceProcessing.Functions;
 
-import ComputationalGraph.Function;
+import ComputationalGraph.Function.Function;
 import Math.Tensor;
 
 import java.io.Serializable;

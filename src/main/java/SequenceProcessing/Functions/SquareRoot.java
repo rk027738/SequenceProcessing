@@ -1,12 +1,11 @@
 package SequenceProcessing.Functions;
 
-import ComputationalGraph.Function;
 import Math.Tensor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SquareRoot implements Function, Serializable {
+public class SquareRoot implements ComputationalGraph.Function.Function, Serializable {
 
     private final double epsilon;
 

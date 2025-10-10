@@ -1,12 +1,11 @@
 package SequenceProcessing.Functions;
 
-import ComputationalGraph.Function;
 import Math.Tensor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MultiplyByConstant implements Function, Serializable {
+public class MultiplyByConstant implements ComputationalGraph.Function.Function, Serializable {
 
     private final double constant;
 

@@ -2,6 +2,11 @@ package SequenceProcessing.Classification;
 
 import Classification.Performance.ClassificationPerformance;
 import ComputationalGraph.*;
+import ComputationalGraph.Function.Softmax;
+import ComputationalGraph.Function.Subtract;
+import ComputationalGraph.Node.ComputationalNode;
+import ComputationalGraph.Node.ConcatenatedNode;
+import ComputationalGraph.Node.MultiplicationNode;
 import Dictionary.*;
 import Math.Tensor;
 import Math.Vector;
