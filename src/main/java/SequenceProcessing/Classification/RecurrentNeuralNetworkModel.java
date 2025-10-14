@@ -80,28 +80,27 @@ public class RecurrentNeuralNetworkModel extends ComputationalGraph implements S
             this.switches.add(new Switch());
             ArrayList<ComputationalNode> newOldLayers = new ArrayList<>();
             ComputationalNode input = new MultiplicationNode(false, true, false);
-            ComputationalNode maskedInput = this.addEdge(input, switches.get(k), false);
             inputNodes.add(input);
-            ComputationalNode current = maskedInput;
+            ComputationalNode current = input;
             for (int i = 0; i < ((RecurrentNeuralNetworkParameter) parameters).size(); i++) {
                 ComputationalNode aw;
                 ComputationalNode aFunction;
                 if (!currentOldLayers.isEmpty()) {
                     aw = this.addEdge(current, weights.get(i), false);
                     ComputationalNode oWithoutBias = this.addEdge(currentOldLayers.get(i), new RemoveBias(), false);
-                    ComputationalNode maskedOWithoutBias = this.addEdge(oWithoutBias, switches.get(k), false);
-                    ComputationalNode ou = this.addEdge(maskedOWithoutBias, recurrentWeights.get(i), false);
+                    ComputationalNode ou = this.addEdge(oWithoutBias, recurrentWeights.get(i), false);
                     ComputationalNode a = this.addAdditionEdge(aw, ou, false);
                     aFunction = this.addEdge(a, ((RecurrentNeuralNetworkParameter) parameters).getActivationFunction(i), true);
                 } else {
                     aw = this.addEdge(current, weights.get(i), false);
                     aFunction = this.addEdge(aw, ((RecurrentNeuralNetworkParameter) parameters).getActivationFunction(i), true);
                 }
-                current = this.addEdge(aFunction, switches.get(k), false);
+                current = aFunction;
                 newOldLayers.add(aFunction);
             }
             currentOldLayers = (ArrayList<ComputationalNode>) newOldLayers.clone();
-            outputNodes.add(this.addEdge(current, weights.get(weights.size() - 1), false));
+            ComputationalNode node = this.addEdge(current, weights.get(weights.size() - 1), false);
+            outputNodes.add(this.addEdge(node, switches.get(k), false));
         }
         ConcatenatedNode concatenatedNode = (ConcatenatedNode) this.concatEdges(outputNodes, 0);
         this.addEdge(concatenatedNode, new Softmax(), false);
