@@ -116,11 +116,11 @@ public class RecurrentNeuralNetworkModel extends ComputationalGraph implements S
                     aw = this.addEdge(current, weights.get(i), false);
                     ComputationalNode oWithoutBias = this.addEdge(currentOldLayers.get(i), new RemoveBias(), false);
                     ComputationalNode ou = this.addEdge(oWithoutBias, recurrentWeights.get(i), false);
-                    ComputationalNode a = this.addAdditionEdge(aw, ou, false);
-                    aFunction = this.addEdge(a, ((RecurrentNeuralNetworkParameter) parameters).getActivationFunction(i), true);
+                    ComputationalNode a = this.addAdditionEdge(aw, ou, true);
+                    aFunction = this.addEdge(a, ((RecurrentNeuralNetworkParameter) parameters).getActivationFunction(i), false);
                 } else {
-                    aw = this.addEdge(current, weights.get(i), false);
-                    aFunction = this.addEdge(aw, ((RecurrentNeuralNetworkParameter) parameters).getActivationFunction(i), true);
+                    aw = this.addEdge(current, weights.get(i), true);
+                    aFunction = this.addEdge(aw, ((RecurrentNeuralNetworkParameter) parameters).getActivationFunction(i), false);
                 }
                 current = aFunction;
                 newOldLayers.add(aFunction);
