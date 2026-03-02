@@ -96,11 +96,11 @@ public class RecurrentNeuralNetworkModel extends ComputationalGraph implements S
         ArrayList<ComputationalNode> recurrentWeights = new ArrayList<>();
         int currentLength = wordEmbeddingLength + 1;
         for (int i = 0; i < ((RecurrentNeuralNetworkParameter) parameters).size(); i++) {
-            weights.add(new MultiplicationNode(new Tensor(parameters.getInitialization().initialize(currentLength, ((RecurrentNeuralNetworkParameter) parameters).getHiddenLayer(i), random), new int[]{currentLength, ((RecurrentNeuralNetworkParameter) parameters).getHiddenLayer(i)})));
-            recurrentWeights.add(new MultiplicationNode(new Tensor(parameters.getInitialization().initialize(((RecurrentNeuralNetworkParameter) parameters).getHiddenLayer(i), ((RecurrentNeuralNetworkParameter) parameters).getHiddenLayer(i), random), new int[]{((RecurrentNeuralNetworkParameter) parameters).getHiddenLayer(i), ((RecurrentNeuralNetworkParameter) parameters).getHiddenLayer(i)})));
+            weights.add(new MultiplicationNode(new Tensor(parameters.initializeWeights(currentLength, ((RecurrentNeuralNetworkParameter) parameters).getHiddenLayer(i), random), new int[]{currentLength, ((RecurrentNeuralNetworkParameter) parameters).getHiddenLayer(i)})));
+            recurrentWeights.add(new MultiplicationNode(new Tensor(parameters.initializeWeights(((RecurrentNeuralNetworkParameter) parameters).getHiddenLayer(i), ((RecurrentNeuralNetworkParameter) parameters).getHiddenLayer(i), random), new int[]{((RecurrentNeuralNetworkParameter) parameters).getHiddenLayer(i), ((RecurrentNeuralNetworkParameter) parameters).getHiddenLayer(i)})));
             currentLength = ((RecurrentNeuralNetworkParameter) parameters).getHiddenLayer(i) + 1;
         }
-        weights.add(new MultiplicationNode(new Tensor(parameters.getInitialization().initialize(currentLength, ((RecurrentNeuralNetworkParameter) parameters).getClassLabelSize(), random), new int[]{currentLength, ((RecurrentNeuralNetworkParameter) parameters).getClassLabelSize()})));
+        weights.add(new MultiplicationNode(new Tensor(parameters.initializeWeights(currentLength, ((RecurrentNeuralNetworkParameter) parameters).getClassLabelSize(), random), new int[]{currentLength, ((RecurrentNeuralNetworkParameter) parameters).getClassLabelSize()})));
         ArrayList<ComputationalNode> currentOldLayers = new ArrayList<>();
         ArrayList<ComputationalNode> outputNodes = new ArrayList<>();
         for (int k = 0; k < timeStep; k++) {
@@ -135,8 +135,8 @@ public class RecurrentNeuralNetworkModel extends ComputationalGraph implements S
     }
 
     @Override
-    protected ArrayList<Integer> getClassLabels(ComputationalNode outputNode) {
-        ArrayList<Integer> classLabels = new ArrayList<>();
+    protected ArrayList<Double> getClassLabels(ComputationalNode outputNode) {
+        ArrayList<Double> classLabels = new ArrayList<>();
         for (int i = 0; i < outputNode.getValue().getShape()[0]; i++) {
             int index = -1;
             double max = Double.MIN_VALUE;
@@ -146,7 +146,7 @@ public class RecurrentNeuralNetworkModel extends ComputationalGraph implements S
                     index = j;
                 }
             }
-            classLabels.add(index);
+            classLabels.add((double) index);
         }
         return classLabels;
     }
@@ -157,9 +157,9 @@ public class RecurrentNeuralNetworkModel extends ComputationalGraph implements S
         for (Tensor instance : testSet) {
             ArrayList<Integer> goldClassLabels = new ArrayList<>();
             createInputTensors(instance, goldClassLabels);
-            ArrayList<Integer> classLabels = this.predict();
+            ArrayList<Double> classLabels = this.predict();
             for (int j = 0; j < (instance.getShape()[0] / (wordEmbeddingLength + 1)); j++) {
-                if (goldClassLabels.get(j).equals(classLabels.get(j))) {
+                if (goldClassLabels.get(j).equals(classLabels.get(j).intValue())) {
                     count++;
                 }
                 total++;
