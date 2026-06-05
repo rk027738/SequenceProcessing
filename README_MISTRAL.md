@@ -37,13 +37,18 @@ mvn exec:java
 
 ## Important Classes
 MistralModel.java - Main model orchestration
+
 MistralDecoderBlock.java - Transformer decoder block
+
 MistralAttention.java - GQA attention with RoPE
+
 SwiGLUFeedForward.java - Feed-forward network
+
 RMSNorm.java - Root Mean Square Normalization
+
 RotaryEmbedding.java - Positional encoding
 
-## Difference from GPT
+## Difference from other models
 This project uses RMSNorm, RoPE, GQA and SwiGLU, which are associated with modern Mistral architectures rather than older GPT-style implementations.
 
 ## Limitation
