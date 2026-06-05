@@ -1,4 +1,4 @@
-# Simplified Mistral-Inspired Language Model
+# Simplified Mistral Model
 
 ## Overview
 This project is a simplified educational implementation of a Mistral-style decoder-only language model written in Java.
