@@ -5,43 +5,32 @@ import java.util.Random;
 /** Masked multi-head self-attention with grouped-query attention. */
 public class MistralAttention {
     private final MistralConfig config;
-        /**
-     * Query projection matrix.
-     */
+    /** Query projection matrix. */
     private final double[][] queryWeights;
-    
-    /**
-     * Key projection matrix.
-     */
+    /** Key projection matrix. */
     private final double[][] keyWeights;
-    
-    /**
-     * Value projection matrix.
-     */
+    /** Value projection matrix. */
     private final double[][] valueWeights;
-    
-    /**
-     * Output projection matrix.
-     */
+    /** Output projection matrix. */
     private final double[][] outputWeights;
     private final RotaryEmbedding rope;
 
     public MistralAttention(MistralConfig config, Random random) {
         this.config = config;
         int kvSize = config.numKeyValueHeads * config.headDim();
-        this.wq = TensorUtils.randomMatrix(config.hiddenSize, config.hiddenSize, random);
-        this.wk = TensorUtils.randomMatrix(config.hiddenSize, kvSize, random);
-        this.wv = TensorUtils.randomMatrix(config.hiddenSize, kvSize, random);
-        this.wo = TensorUtils.randomMatrix(config.hiddenSize, config.hiddenSize, random);
+        this.queryWeights = TensorUtils.randomMatrix(config.hiddenSize, config.hiddenSize, random);
+        this.keyWeights = TensorUtils.randomMatrix(config.hiddenSize, kvSize, random);
+        this.valueWeights = TensorUtils.randomMatrix(config.hiddenSize, kvSize, random);
+        this.outputWeights = TensorUtils.randomMatrix(config.hiddenSize, config.hiddenSize, random);
         this.rope = new RotaryEmbedding(config.headDim());
     }
 
     public double[][] forward(double[][] x) {
         int seq = x.length;
         int headDim = config.headDim();
-        double[][] qFlat = TensorUtils.matMul(x, wq);
-        double[][] kFlat = TensorUtils.matMul(x, wk);
-        double[][] vFlat = TensorUtils.matMul(x, wv);
+        double[][] qFlat = TensorUtils.matMul(x, queryWeights);
+        double[][] kFlat = TensorUtils.matMul(x, keyWeights);
+        double[][] vFlat = TensorUtils.matMul(x, valueWeights);
 
         double[][] out = new double[seq][config.hiddenSize];
         for (int t = 0; t < seq; t++) {
@@ -67,7 +56,7 @@ public class MistralAttention {
                 }
             }
         }
-        return TensorUtils.matMul(out, wo);
+        return TensorUtils.matMul(out, outputWeights);
     }
 
     private static double[] slice(double[] values, int start, int length) {
