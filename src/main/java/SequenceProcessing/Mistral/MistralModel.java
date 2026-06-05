@@ -3,31 +3,27 @@ package SequenceProcessing.Mistral;
 import java.util.Random;
 
 /**
- * Mistral-style decoder-only language model implementation
+ * Simplified Mistral-inspired decoder-only language model.
+ * Implements token embeddings, RMSNorm, RoPE, GQA attention,
+ * SwiGLU feed-forward networks and next-token prediction.
  */
 public class MistralModel {
     private final MistralConfig config;
-        /**
-     * Vocabulary embedding matrix.
-     * Each token id maps to a dense vector representation.
-     */
+    /** Vocabulary embedding matrix mapping token ids to dense vectors. */
     private final double[][] vocabularyEmbeddings;
     private final MistralDecoderBlock[] layers;
     private final RMSNorm finalNorm;
-       /**
-     * Output projection layer used to convert hidden states
-     * into vocabulary logits.
-     */
+    /** Output projection matrix producing vocabulary logits. */
     private final double[][] outputProjectionMatrix;
 
     public MistralModel(MistralConfig config) {
         this.config = config;
         Random random = new Random(config.seed);
-        this.tokenEmbedding = TensorUtils.randomMatrix(config.vocabSize, config.hiddenSize, random);
+        this.vocabularyEmbeddings = TensorUtils.randomMatrix(config.vocabSize, config.hiddenSize, random);
         this.layers = new MistralDecoderBlock[config.numLayers];
         for (int i = 0; i < layers.length; i++) layers[i] = new MistralDecoderBlock(config, random);
         this.finalNorm = new RMSNorm(config.hiddenSize, config.rmsNormEps);
-        this.lmHead = TensorUtils.randomMatrix(config.hiddenSize, config.vocabSize, random);
+        this.outputProjectionMatrix = TensorUtils.randomMatrix(config.hiddenSize, config.vocabSize, random);
     }
 
     public double[][] forward(int[] tokens) {
@@ -36,7 +32,7 @@ public class MistralModel {
         double[][] x = embed(tokens);
         for (MistralDecoderBlock layer : layers) x = layer.forward(x);
         x = finalNorm.forward(x);
-        double[][] logits = TensorUtils.matMul(x, lmHead);
+        double[][] logits = TensorUtils.matMul(x, outputProjectionMatrix);
         double[][] probs = new double[logits.length][config.vocabSize];
         for (int i = 0; i < logits.length; i++) probs[i] = TensorUtils.softmax(logits[i]);
         return probs;
@@ -54,7 +50,7 @@ public class MistralModel {
         double[][] x = new double[tokens.length][config.hiddenSize];
         for (int i = 0; i < tokens.length; i++) {
             int token = Math.floorMod(tokens[i], config.vocabSize);
-            System.arraycopy(tokenEmbedding[token], 0, x[i], 0, config.hiddenSize);
+            System.arraycopy(vocabularyEmbeddings[token], 0, x[i], 0, config.hiddenSize);
         }
         return x;
     }
