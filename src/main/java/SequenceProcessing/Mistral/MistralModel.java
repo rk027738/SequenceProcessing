@@ -7,10 +7,18 @@ import java.util.Random;
  */
 public class MistralModel {
     private final MistralConfig config;
-    private final double[][] tokenEmbedding;
+        /**
+     * Vocabulary embedding matrix.
+     * Each token id maps to a dense vector representation.
+     */
+    private final double[][] vocabularyEmbeddings;
     private final MistralDecoderBlock[] layers;
     private final RMSNorm finalNorm;
-    private final double[][] lmHead;
+       /**
+     * Output projection layer used to convert hidden states
+     * into vocabulary logits.
+     */
+    private final double[][] outputProjectionMatrix;
 
     public MistralModel(MistralConfig config) {
         this.config = config;
