@@ -5,10 +5,25 @@ import java.util.Random;
 /** Masked multi-head self-attention with grouped-query attention. */
 public class MistralAttention {
     private final MistralConfig config;
-    private final double[][] wq;
-    private final double[][] wk;
-    private final double[][] wv;
-    private final double[][] wo;
+        /**
+     * Query projection matrix.
+     */
+    private final double[][] queryWeights;
+    
+    /**
+     * Key projection matrix.
+     */
+    private final double[][] keyWeights;
+    
+    /**
+     * Value projection matrix.
+     */
+    private final double[][] valueWeights;
+    
+    /**
+     * Output projection matrix.
+     */
+    private final double[][] outputWeights;
     private final RotaryEmbedding rope;
 
     public MistralAttention(MistralConfig config, Random random) {
