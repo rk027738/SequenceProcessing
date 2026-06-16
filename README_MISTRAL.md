@@ -1,14 +1,12 @@
 # Mistral Model Implementation (Computational Graph)
 
 ## Overview
-This project is an educational implementation of a Mistral-style, decoder-only
-language model written in Java. The model is built **entirely on top of the
-`ComputationalGraph` library** that ships with this project: every operation is
+This project is a simple implementation of a Mistral-style, decoder-only
+language model written in Java. The model is fixed and is built **on top of the
+`ComputationalGraph` library** : every operation is
 expressed as a differentiable edge in a graph, so the library performs the
 forward pass, automatic differentiation (back-propagation) and the optimizer
-update. This is the same machinery used by the project's `Transformer` and
-recurrent models, so the Mistral model trains and is evaluated through the exact
-same pipeline.
+update.
 
 ### Implemented Mistral Features
 - Root-Mean-Square normalization (RMSNorm) with a learnable gain
