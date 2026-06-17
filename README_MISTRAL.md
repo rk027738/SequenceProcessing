@@ -2,11 +2,18 @@
 
 ## Overview
 This project is a simple implementation of a Mistral-style, decoder-only
-language model written in Java. The model is fixed and is built **on top of the
-`ComputationalGraph` library** : every operation is
+language model written in Java. The model is built **on top of the
+`ComputationalGraph` library that was forked from StarlangSoftware/SequenceProcessing** : every operation is
 expressed as a differentiable edge in a graph, so the library performs the
 forward pass, automatic differentiation (back-propagation) and the optimizer
 update.
+
+some of the specific Mistral choices are: **RMSNorm** instead of layer normalization, **rotary
+positional embeddings (RoPE)** instead of absolute position embeddings,
+**grouped-query attention (GQA)** to make attention cheaper, and a **SwiGLU**
+feed-forward network. This project re-implements those ideas at a small,
+educational scale on top of the project's own `ComputationalGraph` library.
+
 
 ### Implemented Mistral Features
 - Root-Mean-Square normalization (RMSNorm) with a learnable gain
@@ -49,7 +56,7 @@ mvn test -Dtest=MistralModelTest
 SequenceProcessing.Mistral.MistralDemo
 ```
 The demo builds a small model, trains it on a synthetic dataset and prints the
-resulting accuracy.
+resulting accuracy on a 0 to 1 scale.
 
 ## Important Classes
 - `Mistral/MistralModel.java` &ndash; builds the whole network as a
@@ -72,7 +79,7 @@ label, i.e. its length is `sequenceLength * (hiddenSize + 1)`.
 
 ## Difference from other models
 This model uses RMSNorm, RoPE, GQA and SwiGLU, which are associated with modern
-Mistral architectures rather than older GPT-style implementations.
+Mistral architectures rather than GPT-style implementations.
 
 ## Limitations
 This is an educational implementation and does not include Mixtral sparse
